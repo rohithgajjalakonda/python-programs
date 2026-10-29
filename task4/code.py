@@ -9,7 +9,7 @@ class RetailBillingSystem:
         total_tax = 0.0
         itemIZED_details = []
 
-        # 1. Calculate Subtotal and Category Taxes per item
+       
         for item in cart_items:
             name = item['name']
             category = item['category']
@@ -19,7 +19,7 @@ class RetailBillingSystem:
             item_subtotal = unit_price * qty
             subtotal += item_subtotal
             
-            # Get category tax rate (default to 10% if category not found)
+           
             tax_rate = self.category_taxes.get(category, 10.0) / 100.0
             item_tax = item_subtotal * tax_rate
             total_tax += item_tax
@@ -33,7 +33,7 @@ class RetailBillingSystem:
                 "tax": item_tax
             })
 
-        # 2. Evaluate Threshold Discounts
+        
         applied_discount_rate = 0.0
         for tier in self.discount_tiers:
             if subtotal >= tier['threshold']:
@@ -42,14 +42,14 @@ class RetailBillingSystem:
                 
         raw_discount = subtotal * (applied_discount_rate / 100.0)
 
-        # 3. Enforce Maximum Concession Limit (Cap)
+        
         final_discount = min(raw_discount, self.max_discount_cap)
         is_capped = raw_discount > self.max_discount_cap
 
-        # 4. Compute Final Net Total
+       
         net_total = subtotal - final_discount + total_tax
 
-        # 5. Build Formatted Invoice Output
+       
         invoice = f"""
 ==================================================
               RETAIL TAX INVOICE
@@ -79,18 +79,16 @@ NET PAYABLE AMOUNT                     : ₹{net_total:,.2f}
 """
         return invoice
 
-# ==========================================
-# Sample Execution
-# ==========================================
+
 if __name__ == "__main__":
-    # Configuration Rules
+   
     category_taxes = {
         "Groceries": 5.0,      # 5% tax
         "Electronics": 18.0,   # 18% tax
         "Clothing": 12.0       # 12% tax
     }
     
-    # Threshold tiers: Spend >= 10,000 -> 15% off; Spend >= 5,000 -> 8% off
+   
     discount_tiers = [
         {"threshold": 10000.0, "rate": 15.0},
         {"threshold": 5000.0, "rate": 8.0}
@@ -100,7 +98,7 @@ if __name__ == "__main__":
     
     billing_system = RetailBillingSystem(category_taxes, discount_tiers, max_discount_cap)
     
-    # Sample Cart Input
+   
     customer_cart = [
         {"name": "Wireless Earbuds", "category": "Electronics", "unit_price": 2500.0, "quantity": 2},
         {"name": "Organic Rice (5kg)", "category": "Groceries", "unit_price": 600.0, "quantity": 3},

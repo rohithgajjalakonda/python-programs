@@ -15,7 +15,7 @@ class StudentTrendAnalyzer:
             subject_tracking = {} # subject -> list of scores
             overall_averages = []
 
-            # 1. Process Exam-wise Scores
+           
             for exam in exams:
                 exam_name = exam['exam_name']
                 scores = exam['scores']
@@ -28,13 +28,11 @@ class StudentTrendAnalyzer:
                     "scores": scores
                 })
 
-                # Track subject scores for weak subject identification
                 for sub, sc in scores.items():
                     if sub not in subject_tracking:
                         subject_tracking[sub] = []
                     subject_tracking[sub].append(sc)
 
-            # 2. Calculate Trend (Improvement/Decline)
             deltas = []
             for i in range(1, len(overall_averages)):
                 deltas.append(overall_averages[i] - overall_averages[i-1])
@@ -42,14 +40,12 @@ class StudentTrendAnalyzer:
             is_strictly_improving = all(d > 0 for d in deltas) if deltas else False
             overall_mean = sum(overall_averages) / len(overall_averages) if overall_averages else 0.0
 
-            # 3. Identify Consistently Weak Subjects (scoring < passing_threshold in >= 2 exams)
             weak_subjects = []
             for sub, sc_list in subject_tracking.items():
                 low_count = sum(1 for sc in sc_list if sc < self.passing_threshold)
                 if low_count >= 2:
                     weak_subjects.append(sub)
 
-            # 4. Classify Student
             if overall_mean >= self.top_threshold and len(weak_subjects) == 0:
                 classification = "Top Performer 🌟"
             elif is_strictly_improving and len(weak_subjects) == 0:
@@ -68,7 +64,6 @@ class StudentTrendAnalyzer:
                 "classification": classification
             })
 
-        # 5. Generate Formatted Report
         output = f"""
 ==================================================
         STUDENT PERFORMANCE TREND ANALYSIS
@@ -91,13 +86,10 @@ Top Performer Cutoff     : {self.top_threshold} Average
         output += "\n=================================================="
         return output
 
-# ==========================================
-# Sample Execution
-# ==========================================
+
 if __name__ == "__main__":
     analyzer = StudentTrendAnalyzer(passing_threshold=60.0, top_threshold=85.0)
 
-    # Sample Input Data: Multiple examinations across subjects
     students_data = [
         {
             "student_id": "ST-201",

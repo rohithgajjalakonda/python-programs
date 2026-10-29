@@ -17,15 +17,15 @@ class InventoryReconciliationSystem:
             reorder_level = prod['reorder_level']
             max_capacity = prod['max_capacity']
 
-            # 1. Calculate Expected Closing Stock
+           
             expected_closing = opening + incoming - dispatched
 
-            # 2. Detect Discrepancy
+     
             discrepancy = reported_closing - expected_closing
             if discrepancy != 0:
                 total_discrepancies_found += 1
 
-            # Determine discrepancy status text
+            
             if discrepancy > 0:
                 disc_status = f"Surplus (+{discrepancy})"
             elif discrepancy < 0:
@@ -33,7 +33,7 @@ class InventoryReconciliationSystem:
             else:
                 disc_status = "Balanced ✅"
 
-            # 3. Calculate Replenishment Requirements
+            
             replenishment_qty = 0
             if reported_closing <= reorder_level:
                 replenishment_qty = max(0, max_capacity - reported_closing)
@@ -50,7 +50,7 @@ class InventoryReconciliationSystem:
                 "replenishment_qty": replenishment_qty
             })
 
-        # 4. Generate Formatted Reconciliation Report
+       
         report = f"""
 ==================================================
         WAREHOUSE INVENTORY RECONCILIATION
@@ -82,13 +82,11 @@ Total Units Needed for Replenishment    : {total_replenishment_units:,} units
 """
         return report
 
-# ==========================================
-# Sample Execution
-# ==========================================
+
 if __name__ == "__main__":
     system = InventoryReconciliationSystem()
     
-    # Sample Warehouse Inventory Input Data
+    
     warehouse_stock = [
         {
             "product_id": "P-101",
@@ -96,7 +94,7 @@ if __name__ == "__main__":
             "opening_stock": 150,
             "incoming": 200,
             "dispatched": 180,
-            "reported_closing": 165,  # Expected: 150 + 200 - 180 = 170 (Discrepancy: -5 missing)
+            "reported_closing": 165, 
             "reorder_level": 50,
             "max_capacity": 300
         },
@@ -106,8 +104,8 @@ if __name__ == "__main__":
             "opening_stock": 45,
             "incoming": 30,
             "dispatched": 60,
-            "reported_closing": 15,   # Expected: 45 + 30 - 60 = 15 (Balanced)
-            "reorder_level": 25,       # Below reorder level -> Triggers replenishment
+            "reported_closing": 15,  
+            "reorder_level": 25,
             "max_capacity": 100
         },
         {
@@ -116,7 +114,7 @@ if __name__ == "__main__":
             "opening_stock": 500,
             "incoming": 1000,
             "dispatched": 1250,
-            "reported_closing": 255,  # Expected: 500 + 1000 - 1250 = 250 (Discrepancy: +5 surplus)
+            "reported_closing": 255, 
             "reorder_level": 100,
             "max_capacity": 800
         },
@@ -126,8 +124,8 @@ if __name__ == "__main__":
             "opening_stock": 30,
             "incoming": 10,
             "dispatched": 35,
-            "reported_closing": 5,    # Expected: 30 + 10 - 35 = 5 (Balanced)
-            "reorder_level": 15,       # Triggers replenishment
+            "reported_closing": 5,   
+            "reorder_level": 15,     
             "max_capacity": 50
         }
     ]

@@ -2,7 +2,7 @@ class TrafficPenaltyCalculator:
     def __init__(self, max_penalty_points=12):
         self.max_penalty_points = max_penalty_points
         
-        # Fine schedules structured by Vehicle Category -> Offence Type
+       
         self.fine_schedule = {
             "Two-Wheeler": {
                 "Speeding": {"base_fine": 1500, "points": 3},
@@ -27,7 +27,7 @@ class TrafficPenaltyCalculator:
             }
         }
         
-        self.repeat_multiplier = 1.5  # 50% surcharge on repeat offences
+        self.repeat_multiplier = 1.5 
 
     def process_violations(self, offender_name, vehicle_category, violations):
         total_fine = 0.0
@@ -41,13 +41,15 @@ class TrafficPenaltyCalculator:
             offence = v['offence_type']
             is_repeat = v['is_repeat']
 
-            # Default fallback if offence not found
+           
+            
             offence_data = category_schedule.get(offence, {"base_fine": 2000, "points": 3})
             
             base_fine = offence_data['base_fine']
             points = offence_data['points']
 
-            # Apply repeat offence multiplier
+            
+            
             effective_fine = base_fine * self.repeat_multiplier if is_repeat else base_fine
             
             if offence == "Drunk Driving" or points >= 10:
@@ -64,10 +66,11 @@ class TrafficPenaltyCalculator:
                 "points": points
             })
 
-        # Check Disqualification Criteria
+      
+        
         is_disqualified = total_points >= self.max_penalty_points or is_critical_infraction
 
-        # Generate Notice Statement
+       
         notice = f"""
 ==================================================
         TRAFFIC VIOLATION PENALTY NOTICE
@@ -100,21 +103,19 @@ LICENSE STATUS & ADJUDICATION
         notice += "\n=================================================="
         return notice
 
-# ==========================================
-# Sample Execution
-# ==========================================
+
 if __name__ == "__main__":
     calculator = TrafficPenaltyCalculator(max_penalty_points=12)
 
-    # Sample Offender Input Data
+   
     offender_name = "Vikram Malhotra"
     vehicle_category = "Car"
     
     violations_recorded = [
-        {"offence_type": "Speeding", "is_repeat": False},          # Base: ₹2,000 | Pts: 3
-        {"offence_type": "No Seatbelt", "is_repeat": True},        # Base: ₹1,000 * 1.5 = ₹1,500 | Pts: 2
-        {"offence_type": "Red Light Jump", "is_repeat": True},     # Base: ₹1,500 * 1.5 = ₹2,250 | Pts: 3
-        {"offence_type": "Drunk Driving", "is_repeat": False}      # Base: ₹15,000 | Pts: 10 (Critical infraction)
+        {"offence_type": "Speeding", "is_repeat": False},          
+        {"offence_type": "No Seatbelt", "is_repeat": True},      
+        {"offence_type": "Red Light Jump", "is_repeat": True},    
+        {"offence_type": "Drunk Driving", "is_repeat": False}     
     ]
 
     print(calculator.process_violations(offender_name, vehicle_category, violations_recorded))

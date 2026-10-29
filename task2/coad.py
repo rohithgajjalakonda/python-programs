@@ -21,7 +21,7 @@ class PayrollSystem:
         return tax
 
     def generate_pay_statement(self, employee):
-        # 1. Earnings Calculation
+      
         basic = employee['basic_pay']
         allowances = employee['allowances']
         incentives = employee['incentives']
@@ -32,17 +32,17 @@ class PayrollSystem:
         
         gross_salary = basic + allowances + overtime_pay + incentives
         
-        # 2. Deductions Calculation
+       
         pf = basic * self.pf_rate
         taxable_base = gross_salary - pf  # Standard tax base deduction context
         income_tax = self.calculate_progressive_tax(taxable_base)
         
         total_deductions = pf + self.prof_tax + self.insurance + income_tax
         
-        # 3. Net Salary Calculation
+        
         net_salary = gross_salary - total_deductions
         
-        # 4. Formatted Output Statement
+        
         statement = f"""
 ==================================================
               SALARY STATEMENT
@@ -74,9 +74,7 @@ NET TAKE-HOME SALARY               : ₹{net_salary:,.2f}
 """
         return statement
 
-# ==========================================
-# Sample Execution
-# ==========================================
+
 if __name__ == "__main__":
     payroll_system = PayrollSystem()
     

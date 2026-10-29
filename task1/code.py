@@ -12,8 +12,8 @@ class ScholarshipSystem:
         
         for student in applicants:
             reasons = []
-            
-            # Check criteria
+                        
+
             if student['aggregate_marks'] < self.min_aggregate:
                 reasons.append(f"Aggregate marks {student['aggregate_marks']}% below minimum {self.min_aggregate}%")
             
@@ -32,29 +32,22 @@ class ScholarshipSystem:
             else:
                 eligible_students.append(student)
                 
-        # Sort eligible students using tie-breaking rules:
-        # 1. Aggregate marks (descending) -> -student['aggregate_marks']
-        # 2. Attendance (descending) -> -student['attendance']
-        # 3. Annual income (ascending) -> student['annual_income']
-        # 4. Student ID (ascending) -> student['student_id']
-        eligible_students.sort(key=lambda s: (
+       
             -s['aggregate_marks'],
             -s['attendance'],
             s['annual_income'],
             s['student_id']
         ))
         
-        # Allocate scholarships based on available slots
+      
         awarded = eligible_students[:self.total_slots]
         waitlist = eligible_students[self.total_slots:]
         
         return awarded, waitlist, rejected_students
 
-# ==========================================
-# Sample Execution
-# ==========================================
+
 if __name__ == "__main__":
-    # System criteria
+    
     system = ScholarshipSystem(
         min_aggregate=75.0,
         min_subject_score=60,
@@ -63,7 +56,7 @@ if __name__ == "__main__":
         total_slots=3
     )
     
-    # Sample Input Data
+    
     applicants = [
         {
             "student_id": "S101",
@@ -79,13 +72,13 @@ if __name__ == "__main__":
             "aggregate_marks": 91.0,
             "subject_scores": {"Math": 95, "Physics": 92, "Chemistry": 86},
             "attendance": 88.0,
-            "annual_income": 700000  # Fails income criteria
+            "annual_income": 700000
         },
         {
             "student_id": "S103",
             "name": "Charlie Brown",
             "aggregate_marks": 85.0,
-            "subject_scores": {"Math": 55, "Physics": 90, "Chemistry": 90},  # Fails Math minimum
+            "subject_scores": {"Math": 55, "Physics": 90, "Chemistry": 90},
             "attendance": 95.0,
             "annual_income": 300000
         },
@@ -95,7 +88,7 @@ if __name__ == "__main__":
             "aggregate_marks": 88.5,
             "subject_scores": {"Math": 88, "Physics": 88, "Chemistry": 89},
             "attendance": 96.0,
-            "annual_income": 400000  # Tie with Alice on aggregate, but higher attendance -> wins tie
+            "annual_income": 400000 
         },
         {
             "student_id": "S105",
